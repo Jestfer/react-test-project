@@ -28,7 +28,7 @@ function Todo(props) {
   }
 
   function updateTodo() {
-    props.handleUpdate(titleToUpdate);
+    props.handleUpdate(titleToUpdate, statusToUpdate);
   }
 
   return (

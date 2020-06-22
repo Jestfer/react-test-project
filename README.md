@@ -1,3 +1,19 @@
+## PROCESS
+
+Project created using create-react-app: https://github.com/facebook/create-react-app
+
+1. Component hierarchy outline
+2. Built static version of the app (components drawn in schema with fake hardcoded data)
+3. Added state needed for app to function
+4. Refactor: state should live in TaskRow, which passes the Props (existing tasks) to Todo
+5. Whenever there is a new task or an updated task, Todo will inform TaskRow (so it can update state)
+
+NEXT:
+
+- Add some tests
+
+########################
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

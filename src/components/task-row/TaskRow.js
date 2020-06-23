@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
-import { TODOS } from '../board/Board';
 import Todo from '../todo/Todo';
 
 // TODO: probably TODO should be its own component, so: Lift State Up or use Context?
 function TaskRow() {
-  // const [todos, setTodos] = useState(TODOS);
   const [todos, setTodos] = useState([]);
 
-  const todoList = todos.filter((todo) => todo.status === 'TODO');
-  const inProgressList = todos.filter((todo) => todo.status === 'IN PROGRESS');
-  const doneList = todos.filter((todo) => todo.status === 'DONE');
-
   function handleNewTodo(todo) {
-    const newTodos = todos;
-    newTodos.push(todo);
+    // https://stackoverflow.com/a/30271330/8243590
+    let newTodos = todos.concat(todo);
+
+    // const newTodos = todos;
+    // newTodos.push(todo);
     setTodos(newTodos);
+
+    // setTodos(todos.push(todo));
   }
 
   function handleUpdate(todoTitle, newTodoStatus) {
-    let updatedTodos = todos;
+    // let updatedTodos = todos;
     // filter TODO to be updated (at the moment based on title... not well done)
-    let todoToUpdate = updatedTodos.filter((todo) => todo.title === todoTitle);
-
+    // let todoToUpdate = todos.filter((todo) => todo.title === todoTitle);
+    let indexToUpdate = todos.findIndex((todo) => todo.title === todoTitle);
+    let itemToUpdate = todos.filter((todo) => todo.title === todoTitle);
+    itemToUpdate[0].status = newTodoStatus;
     // Update TODO status
-    todoToUpdate[0].status = newTodoStatus;
+    // todos[indexToUpdate].status = newTodoStatus;
+    let updatedTodos = todos.splice(indexToUpdate, 1, itemToUpdate);
+
     setTodos(updatedTodos);
   }
 
@@ -44,31 +47,37 @@ function TaskRow() {
     <>
       <tr>
         <td>
-          {todoList?.map((task) => (
-            <p>
-              <strong>{task.title}</strong>
-              <br></br>
-              {task.description}
-            </p>
-          ))}
+          {todos
+            .filter((todo) => todo.status === 'TODO')
+            .map((todo) => (
+              <p>
+                <strong>{todo.title}</strong>
+                <br></br>
+                {todo.description}
+              </p>
+            ))}
         </td>
         <td>
-          {inProgressList?.map((task) => (
-            <p>
-              <strong>{task.title}</strong>
-              <br></br>
-              {task.description}
-            </p>
-          ))}
+          {todos
+            .filter((todo) => todo.status === 'IN PROGRESS')
+            .map((todo) => (
+              <p>
+                <strong>{todo.title}</strong>
+                <br></br>
+                {todo.description}
+              </p>
+            ))}
         </td>
         <td>
-          {doneList?.map((task) => (
-            <p>
-              <strong>{task.title}</strong>
-              <br></br>
-              {task.description}
-            </p>
-          ))}
+          {todos
+            .filter((todo) => todo.status === 'DONE')
+            .map((todo) => (
+              <p>
+                <strong>{todo.title}</strong>
+                <br></br>
+                {todo.description}
+              </p>
+            ))}
         </td>
 
         {/* <td>{renderTasks(todoList)}</td>
@@ -76,11 +85,7 @@ function TaskRow() {
       <td>{renderTasks(doneList)}</td> */}
       </tr>
 
-      <Todo
-        todos={todos}
-        handleNewTodo={handleNewTodo}
-        handleUpdate={handleUpdate}
-      ></Todo>
+      <Todo handleNewTodo={handleNewTodo} handleUpdate={handleUpdate}></Todo>
     </>
   );
 }

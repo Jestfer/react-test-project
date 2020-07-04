@@ -12,11 +12,7 @@ function RenderTask(props) {
         </p>
       ));
 
-  return (
-    <>
-      <td>{renderTasks(props.todos, props.status)}</td>
-    </>
-  );
+  return <td>{renderTasks(props.todos, props.status)}</td>;
 }
 
 export default RenderTask;
